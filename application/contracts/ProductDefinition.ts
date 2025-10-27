@@ -1,6 +1,6 @@
 
 export interface ProductDefinition {
-    IsValid(): () => ({valid:boolean, error?:Error})
+    IsValid(): ({valid:boolean, error?:Error})
     Enable(): void
     Disable(): void
     GetId():  string

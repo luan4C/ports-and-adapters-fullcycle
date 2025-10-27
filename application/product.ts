@@ -1,4 +1,4 @@
-import { ENABLED, type ProductDefinition } from "./contracts/ProductDefinition";
+import { DISABLED, ENABLED, type ProductDefinition } from "./contracts/ProductDefinition";
 
 class Product implements ProductDefinition {
     
@@ -22,12 +22,30 @@ class Product implements ProductDefinition {
         else
             this.Status = ENABLED;
     }
-    Disable(): () => void {
-        throw new Error("Method not implemented.");
+    Disable():  void {
+        if(this.Price ==0)
+        {
+            this.Status = DISABLED;
+        }
+        else
+            throw new Error("Cannot disable product with price greater than 0!");
+
     }
 
-    IsValid(): () => ({ valid: boolean; error?: Error; }) {
-        throw new Error("Method not implemented.");
+    IsValid(): ({ valid: boolean; error?: Error; }) {
+        if(this.Status == ""){
+            this.Status = DISABLED;
+        }
+
+        if(this.Status != ENABLED && this.Status != DISABLED){
+            return {valid: false, error: new Error("the status must be enabled or disabled")}
+        }
+
+            if(this.Price < 0){
+            return {valid: false, error: new Error("the price must be greater then or equal 0")}
+        }
+
+        return {valid: true}
     }
     
     GetId():  string {
